@@ -1,21 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
+import reacteact from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import inicio from './inicio'
+import Formulario from "./src/components/Formulario";
+import BtnIniciar from "./src/components/BtnIniciar"
 
 export default function App() {
-  return (
+    return(
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Text>Ingrese su correo electronico</Text>
+      <Formulario />
+      
+      <Text>Ingrese su contraseña</Text>
+      <Formulario />
+
+      <BtnIniciar />
+      <StatusBar style="auto"/>
     </View>
   );
 }
 
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#e8c39e",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
