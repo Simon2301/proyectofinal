@@ -22,11 +22,12 @@ const styles = StyleSheet.create({
     height: 40,
     width: 250,
     margin: 12,
-    borderWidth: 1,
+    borderWidth: 2,
     padding: 10,
-    radius: 20,
+    radius: 15,
     borderRadius: 20,
     backgroundColor: "#f5e1ce",
+    borderColor:  '#b08e6b',
     marginVertical: 30
   },
 });
