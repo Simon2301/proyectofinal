@@ -77,4 +77,29 @@ const Inicio = () => {
   );
 };
 
+//Chat API: https://chatgpt.com/share/671300c9-1204-800a-840c-7f41e9f1958a
+const axios = require('axios');
+
+// Clave API obtenida de spoonacular
+const apiKey = '6e0ad0cae8e14e5f935bd3991235608d';
+
+// Realizar una solicitud para buscar recetas por ingredientes
+const buscarRecetasPorIngredientes = async (ingredientes) => {
+  try {
+    const response = await axios.get(`https://api.spoonacular.com/recipes/findByIngredients`, {
+      params: {
+        ingredients: ingredientes,
+        apiKey: apiKey,
+        number: 5  // Número de recetas que quieres obtener
+      }
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.error('Error al buscar recetas:', error);
+  }
+};
+
+// Uso del ejemplo: buscando recetas con tomate y queso
+buscarRecetasPorIngredientes('tomato,cheese');
+
 export default Inicio;
