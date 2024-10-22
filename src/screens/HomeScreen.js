@@ -1,7 +1,15 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
+
+  const handleSearch = () => {
+    // Navegar a la pantalla de resultados de búsqueda
+    navigation.navigate('SearchResultsScreen');
+  };
+
   return (
     <View style={styles.container}>
       {/* Título */}
@@ -26,7 +34,7 @@ const HomeScreen = () => {
       />
 
       {/* Botón de búsqueda */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleSearch}>
         <Text style={styles.buttonText}>Buscar</Text>
       </TouchableOpacity>
 
