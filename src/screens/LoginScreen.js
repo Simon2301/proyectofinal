@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 
-const Login = ({ navigation }) => {
+export default function LoginScreen({ navigation }) {
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
 
@@ -9,7 +9,7 @@ const Login = ({ navigation }) => {
     console.log('Correo Electrónico:', correo);
     console.log('Contraseña:', contrasena);
     // Navegar a la pantalla "InicioApp" después de iniciar sesión
-    navigation.navigate('InicioApp'); 
+    navigation.navigate('Inicio'); 
   };
 
   return (
@@ -20,6 +20,7 @@ const Login = ({ navigation }) => {
         value={correo}
         onChangeText={setCorreo}
         placeholder="abc@gmail.com"
+        placeholderTextColor="#C7A299"
       />
       <Text style={styles.letra}>Ingrese su Contraseña:</Text>
       <TextInput
@@ -28,20 +29,22 @@ const Login = ({ navigation }) => {
         onChangeText={setContrasena}
         placeholder="Ingresa tu contraseña"
         secureTextEntry={true}
+        placeholderTextColor="#C7A299"
       />
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Iniciar Sesión</Text>
       </TouchableOpacity>
+
       <Text style={styles.letraR}>¿Aún no tiene una cuenta? Regístrese aquí</Text>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('Registro')}
+        onPress={() => navigation.navigate('RegistroScreen')}
       >
         <Text style={styles.buttonText}>Registrarse</Text>
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -49,43 +52,50 @@ const styles = StyleSheet.create({
     backgroundColor: "#e8c39e",
     alignItems: "center",
     justifyContent: "center",
-    padding: 40,
+    padding: 20,
   },
   letra: {
     color: "#2c241c",
-    marginBottom: -20,
+    marginBottom: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'left',
+    width: '95%',
+    paddingHorizontal: 20,
+    flexWrap: 'nowrap', // Evitar que el texto se divida en varias líneas
   },
   letraR: {
-    marginTop: '30%',
-    marginBottom: -20,
+    marginTop: 20,
+    marginBottom: 10,
+    color: "#2c241c",
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   input: {
     height: 40,
-    width: 250,
-    margin: 12,
+    width: '90%',
+    marginVertical: 10,
     borderWidth: 1,
-    borderColor: '#B08E6B', // Color del borde
+    borderColor: '#B08E6B',
     padding: 10,
     borderRadius: 20,
     backgroundColor: "#f5e1ce",
-    marginVertical: 30,
   },
   button: {
     height: 40,
-    width: 250,
+    width: '90%',
     borderRadius: 20,
     backgroundColor: "#f5e1ce",
     borderWidth: 1,
-    borderColor: '#B08E6B', // Color del borde
+    borderColor: '#B08E6B',
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 30,
+    marginVertical: 10,
   },
   buttonText: {
-    color: '#2c241c', // Cambia el color del texto si es necesario
+    color: '#2c241c',
     fontSize: 16,
     fontWeight: 'bold',
   },
 });
-
-export default Login;

@@ -1,3 +1,5 @@
+// ProfileScreen.js
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -34,8 +36,13 @@ const ProfileScreen = () => {
     }
   }, [isFocused]);
 
+  // Manejar la acción de cerrar sesión
   const handleLogout = () => {
-    navigation.navigate('Login');
+    // Reinicia la navegación y dirige a la pantalla de inicio de sesión
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'LoginScreen' }],
+    });
   };
 
   const handleEditProfile = () => {
@@ -63,6 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#D2A77B',
     padding: 20,
+    alignItems: 'center',
   },
   profileSection: {
     alignItems: 'center',
@@ -70,10 +78,10 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   profileImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    marginBottom: 10,
+    width: 180, // Aumentado de 120 a 180
+    height: 180, // Aumentado de 120 a 180
+    borderRadius: 90,
+    marginBottom: 20,
   },
   username: {
     fontSize: 24,

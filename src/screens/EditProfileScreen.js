@@ -42,7 +42,7 @@ const EditProfileScreen = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1], // Cambiado a 1:1 para una imagen cuadrada
       quality: 1,
     });
 
@@ -74,7 +74,6 @@ const EditProfileScreen = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -84,12 +83,13 @@ const styles = StyleSheet.create({
   },
   backButton: {
     alignSelf: 'flex-start',
-    marginBottom: 20,
+    marginTop: 30,
+    marginBottom: 40,
   },
   profileImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 130,
+    height: 130,
+    borderRadius: 65,
     marginBottom: 20,
   },
   button: {
