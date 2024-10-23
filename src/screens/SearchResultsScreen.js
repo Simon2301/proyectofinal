@@ -100,18 +100,23 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const IMAGE_BASE_URL = 'https://spoonacular.com/recipeImages/';
 
 // Componente para mostrar cada receta
-const RecipeItem = ({ title, image, usedIngredients, missedIngredients, isFirst }) => {
+const RecipeItem = ({ recipe, isFirst }) => {
+  const navigation = useNavigation();
+  
   return (
-    <View style={[styles.recipeContainer, isFirst && styles.firstRecipeContainer]}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('RecipeDetailsScreen', { recipe })}
+      style={[styles.recipeContainer, isFirst && styles.firstRecipeContainer]}
+    >
       {/* Imagen de la receta */}
-      <Image source={{ uri: `${IMAGE_BASE_URL}${image}` }} style={styles.recipeImage} />
+      <Image source={{ uri: `${IMAGE_BASE_URL}${recipe.image}` }} style={styles.recipeImage} />
       <View style={styles.recipeInfo}>
-        <Text style={styles.recipeTitle}>{title}</Text>
+        <Text style={styles.recipeTitle}>{recipe.title}</Text>
         <Text style={styles.recipeIngredients}>
-          Ingredientes usados: {usedIngredients}, Ingredientes faltantes: {missedIngredients}
+          Ingredientes usados: {recipe.usedIngredientCount}, Ingredientes faltantes: {recipe.missedIngredientCount}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -135,10 +140,7 @@ const SearchResultsScreen = () => {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => (
             <RecipeItem
-              title={item.title}
-              image={item.image}  // Imagen de la receta
-              usedIngredients={item.usedIngredientCount}
-              missedIngredients={item.missedIngredientCount}
+              recipe={item}
               isFirst={index === 0} // Agrega un indicador si es el primer elemento
             />
           )}
@@ -197,4 +199,3 @@ const styles = StyleSheet.create({
 });
 
 export default SearchResultsScreen;
-

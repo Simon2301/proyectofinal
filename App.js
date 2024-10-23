@@ -8,7 +8,9 @@ import FavoritesScreen from './src/screens/FavoritesScreen';
 import ListaScreen from './src/screens/ListaScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import EditProfileScreen from './src/screens/EditProfileScreen';
-import SearchResultsScreen from './src/screens/SearchResultsScreen'; // Importar la pantalla de resultados de búsqueda
+import SearchResultsScreen from './src/screens/SearchResultsScreen';
+import RecipeDetailsScreen from './src/screens/RecipeDetailsScreen';
+import { FavoritesProvider } from './src/context/FavoritesContext';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -81,47 +83,55 @@ const Inicio = () => {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="LoginScreen" screenOptions={{ headerShown: false }}>
-        <Stack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-        />
-        <Stack.Screen
-          name="RegistroScreen"
-          component={RegistroScreen}
-        />
-        <Stack.Screen
-          name="Inicio"
-          component={Inicio}
-        />
-        {/* Pantallas adicionales en caso de navegación directa */}
-        <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-        />
-        <Stack.Screen
-          name="FavoritesScreen"
-          component={FavoritesScreen}
-        />
-        <Stack.Screen
-          name="ListaScreen"
-          component={ListaScreen}
-        />
-        <Stack.Screen
-          name="ProfileScreen"
-          component={ProfileScreen}
-        />
-        <Stack.Screen
-          name="EditProfileScreen"
-          component={EditProfileScreen}
-        />
-         <Stack.Screen
-          name="SearchResultsScreen" 
-          component={SearchResultsScreen}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <FavoritesProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="LoginScreen" screenOptions={{ headerShown: false }}>
+          {/* Pantallas de autenticación */}
+          <Stack.Screen
+            name="LoginScreen"
+            component={LoginScreen}
+          />
+          <Stack.Screen
+            name="RegistroScreen"
+            component={RegistroScreen}
+          />
+          <Stack.Screen
+            name="Inicio"
+            component={Inicio}
+          />
+          {/* Pantallas adicionales en caso de navegación directa */}
+          <Stack.Screen
+            name="HomeScreen"
+            component={HomeScreen}
+          />
+          <Stack.Screen
+            name="FavoritesScreen"
+            component={FavoritesScreen}
+          />
+          <Stack.Screen
+            name="ListaScreen"
+            component={ListaScreen}
+          />
+          <Stack.Screen
+            name="ProfileScreen"
+            component={ProfileScreen}
+          />
+          <Stack.Screen
+            name="EditProfileScreen"
+            component={EditProfileScreen}
+          />
+          <Stack.Screen
+            name="SearchResultsScreen"
+            component={SearchResultsScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="RecipeDetailsScreen"
+            component={RecipeDetailsScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </FavoritesProvider>
   );
 }
