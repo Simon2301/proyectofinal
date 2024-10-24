@@ -16,16 +16,13 @@ const buscarRecetasPorNombre = async (nombre) => {
         number: 5,  // Número de recetas que quieres obtener
       }
     });
-    return response.data.results.map((receta) => ({
-      ...receta,
-      image: `${receta.id}.jpg`  // Construir la URL de la imagen usando el id de la receta
-    }));
+    // Retorna los resultados tal cual sin modificar la URL de la imagen
+    return response.data.results;
   } catch (error) {
     console.error('Error al buscar recetas:', error);
     return [];
   }
 };
-
 
 // Función para buscar recetas por ingredientes
 const buscarRecetasPorIngredientes = async (ingredientes) => {
