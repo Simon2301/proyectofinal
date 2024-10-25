@@ -8,7 +8,8 @@ import FavoritesScreen from './src/screens/FavoritesScreen';
 import ListaScreen from './src/screens/ListaScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import EditProfileScreen from './src/screens/EditProfileScreen';
-import SearchResultsScreen from './src/screens/SearchResultsScreen'; // Importar la pantalla de resultados de búsqueda
+import SearchResultsScreen from './src/screens/SearchResultsScreen'; 
+import RecipeDetailsScreen from './src/screens/RecipeDetailsScreen';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -120,6 +121,10 @@ export default function App() {
           name="SearchResultsScreen" 
           component={SearchResultsScreen}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="RecipeDetailsScreen" 
+          component={RecipeDetailsScreen} 
         />
       </Stack.Navigator>
     </NavigationContainer>

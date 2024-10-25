@@ -3,39 +3,37 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-// Base URL para las imágenes de recetas
 const IMAGE_BASE_URL = 'https://spoonacular.com/recipeImages/';
 
-// Componente para mostrar cada receta
-// Construir URL para la imagen
 const RecipeItem = ({ title, image, id, usedIngredients, missedIngredients, isFirst }) => {
-  // Si la URL de la imagen no es completa, construirla con el ID
+  const navigation = useNavigation();  // Asegúrate de obtener la navegación aquí
   const imageUrl = image.includes('http') ? image : `${IMAGE_BASE_URL}${id}-312x231.jpg`;
 
   return (
-    <View style={[styles.recipeContainer, isFirst && styles.firstRecipeContainer]}>
-      <Image source={{ uri: imageUrl }} style={styles.recipeImage} />
-      <View style={styles.recipeInfo}>
-        <Text style={styles.recipeTitle}>{title}</Text>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('RecipeDetailsScreen', { receta: { id, title, image } })}
+    >
+      <View style={[styles.recipeContainer, isFirst && styles.firstRecipeContainer]}>
+        <Image source={{ uri: imageUrl }} style={styles.recipeImage} />
+        <View style={styles.recipeInfo}>
+          <Text style={styles.recipeTitle}>{title}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
-// Componente principal de la pantalla de resultados de búsqueda
 const SearchResultsScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation();  // Asegúrate de obtener la navegación aquí
   const route = useRoute();
-  const { recetas } = route.params;  // Obtener recetas de los parámetros de navegación
+  const { recetas } = route.params;
 
   return (
     <View style={styles.container}>
-      {/* Botón de retroceso */}
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
         <Icon name="arrow-back" size={28} color="black" />
       </TouchableOpacity>
 
-      {/* Verificar si hay recetas */}
       {recetas.length > 0 ? (
         <FlatList
           data={recetas}
@@ -43,10 +41,11 @@ const SearchResultsScreen = () => {
           renderItem={({ item, index }) => (
             <RecipeItem
               title={item.title}
-              image={item.image}  // Imagen de la receta
+              image={item.image}
+              id={item.id}
               usedIngredients={item.usedIngredientCount}
               missedIngredients={item.missedIngredientCount}
-              isFirst={index === 0} // Agrega un indicador si es el primer elemento
+              isFirst={index === 0}
             />
           )}
         />
