@@ -17,7 +17,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
-// Definir el Stack Navigator para manejar las pantallas de perfil
 const ProfileStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -27,7 +26,6 @@ const ProfileStack = () => {
   );
 };
 
-// Definir el Tab Navigator que incluye el Stack de perfil y otras pantallas
 const Inicio = () => {
   return (
     <Tab.Navigator
@@ -36,7 +34,7 @@ const Inicio = () => {
       barStyle={{ backgroundColor: '#A67B58' }}
     >
       <Tab.Screen
-        name="Home"
+        name="Inicio"
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color }) => (
@@ -45,7 +43,7 @@ const Inicio = () => {
         }}
       />
       <Tab.Screen
-        name="Favorites"
+        name="Favoritos"
         component={FavoritesScreen}
         options={{
           tabBarIcon: ({ color }) => (
@@ -63,7 +61,7 @@ const Inicio = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="Perfil"
         component={ProfileStack}
         options={{
           tabBarIcon: ({ color }) => (
@@ -83,7 +81,7 @@ export default function App() {
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegistroScreen" component={RegistroScreen} />
           <Stack.Screen name="Inicio" component={Inicio} />
-          {/* Pantallas adicionales en caso de navegación directa */}
+          {}
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="FavoritesScreen" component={FavoritesScreen} />
           <Stack.Screen name="ListaScreen" component={ListaScreen} />

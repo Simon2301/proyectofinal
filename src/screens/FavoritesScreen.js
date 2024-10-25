@@ -1,43 +1,57 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { FavoritesContext } from '../context/FavoritesContext';
 
-// Base URL para las imágenes de recetas
 const IMAGE_BASE_URL = 'https://spoonacular.com/recipeImages/';
 
-// Componente para mostrar cada receta
 const RecipeItem = ({ title, image, onPress, isFirst }) => (
   <TouchableOpacity
     style={[styles.recipeContainer, isFirst && styles.firstRecipeContainer]}
     onPress={onPress}
   >
-    <Image source={{ uri: `${IMAGE_BASE_URL}${image}` }} style={styles.recipeImage} />
+    <Image 
+      source={{ uri: image ? `${IMAGE_BASE_URL}${image}` : 'https://via.placeholder.com/100' }} 
+      style={styles.recipeImage} 
+    />
     <View style={styles.recipeInfo}>
       <Text style={styles.recipeTitle}>{title}</Text>
     </View>
   </TouchableOpacity>
 );
 
-// Componente principal de la pantalla de favoritos
 const FavoritesScreen = () => {
   const navigation = useNavigation();
   const { favorites } = useContext(FavoritesContext);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Filtrar recetas según la búsqueda
+  const filteredFavorites = favorites.filter((item) =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <View style={styles.container}>
+      {/* Barra de búsqueda */}
+      <TextInput
+        style={[styles.searchInput, { marginTop: 40 }]} 
+        placeholder="Buscar receta favorita..."
+        placeholderTextColor="#C7A299"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
+
       {/* Verificar si hay favoritos */}
-      {favorites.length > 0 ? (
+      {filteredFavorites.length > 0 ? (
         <FlatList
-          data={favorites}
+          data={filteredFavorites}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => (
             <RecipeItem
               title={item.title}
               image={item.image}
-              onPress={() => navigation.navigate('RecipeDetailsScreen', { recipe: item })}
-              isFirst={index === 0} // Añadir indicador si es el primer elemento
+              onPress={() => navigation.navigate('RecipeDetailsScreen', { receta: item })}
+              isFirst={index === 0} 
             />
           )}
         />
@@ -54,6 +68,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#D2A77B',
     padding: 15,
   },
+  searchInput: {
+    height: 40,
+    borderColor: '#C7A299',
+    borderWidth: 1,
+    borderRadius: 20,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    backgroundColor: '#F5D5B2',
+    color: 'black',
+  },
   recipeContainer: {
     flexDirection: 'row',
     padding: 20,
@@ -63,7 +87,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   firstRecipeContainer: {
-    marginTop: 40, // Añadir margen superior solo para la primera receta
+    marginTop: 40, 
   },
   recipeImage: {
     width: 100,

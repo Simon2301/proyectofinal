@@ -8,7 +8,6 @@ export default function LoginScreen({ navigation }) {
   const handleSubmit = () => {
     console.log('Correo Electrónico:', correo);
     console.log('Contraseña:', contrasena);
-    // Navegar a la pantalla "InicioApp" después de iniciar sesión
     navigation.navigate('Inicio'); 
   };
 
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     width: '95%',
     paddingHorizontal: 20,
-    flexWrap: 'nowrap', // Evitar que el texto se divida en varias líneas
+    flexWrap: 'nowrap', 
   },
   letraR: {
     marginTop: 20,

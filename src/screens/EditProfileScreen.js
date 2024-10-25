@@ -11,7 +11,6 @@ const EditProfileScreen = () => {
   const [username, setUsername] = useState('');
 
   useEffect(() => {
-    // Cargar datos del perfil desde AsyncStorage
     const loadProfileData = async () => {
       try {
         const savedImage = await AsyncStorage.getItem('profileImage');
@@ -42,7 +41,7 @@ const EditProfileScreen = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1], // Cambiado a 1:1 para una imagen cuadrada
+      aspect: [1, 1], 
       quality: 1,
     });
 

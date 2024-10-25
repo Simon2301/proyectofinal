@@ -3,12 +3,10 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-// Base URL para las imágenes de recetas
 const IMAGE_BASE_URL = 'https://spoonacular.com/recipeImages/';
 
-// Componente para mostrar cada receta
-const RecipeItem = ({ id, title, image, usedIngredients, missedIngredients, isFirst }) => {
-  const navigation = useNavigation();  // Asegúrate de obtener la navegación aquí
+const RecipeItem = ({ id, title, image, isFirst }) => {
+  const navigation = useNavigation();  
 
   return (
     <TouchableOpacity
@@ -18,9 +16,6 @@ const RecipeItem = ({ id, title, image, usedIngredients, missedIngredients, isFi
         <Image source={{ uri: `${IMAGE_BASE_URL}${image}` }} style={styles.recipeImage} />
         <View style={styles.recipeInfo}>
           <Text style={styles.recipeTitle}>{title}</Text>
-          <Text style={styles.recipeIngredients}>
-            Ingredientes usados: {usedIngredients}, Ingredientes faltantes: {missedIngredients}
-          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -48,8 +43,6 @@ const SearchResultsScreen = () => {
               id={item.id}
               title={item.title}
               image={item.image}
-              usedIngredients={item.usedIngredientCount}
-              missedIngredients={item.missedIngredientCount}
               isFirst={index === 0}
             />
           )}
@@ -77,11 +70,13 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#F5D5B2',
     borderRadius: 15,
+    borderWidth: 1,
+    borderColor: '#B08E6B',
     marginBottom: 20,
     alignItems: 'center',
   },
   firstRecipeContainer: {
-    marginTop: 50, // Añadir margen superior solo para la primera receta
+    marginTop: 50, 
   },
   recipeImage: {
     width: 100,
@@ -95,11 +90,6 @@ const styles = StyleSheet.create({
   recipeTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'black',
-    marginBottom: 5,
-  },
-  recipeIngredients: {
-    fontSize: 18,
     color: 'black',
   },
   noResultsText: {

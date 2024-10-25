@@ -5,20 +5,25 @@ export const FavoritesContext = createContext();
 export const FavoritesProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
 
-  const toggleFavorite = (recipe) => {
+  const addFavorite = (recipe) => {
     setFavorites((currentFavorites) => {
-      if (currentFavorites.find((item) => item.id === recipe.id)) {
-        // Si ya existe en favoritos, eliminarlo
-        return currentFavorites.filter((item) => item.id !== recipe.id);
-      } else {
-        // Si no existe, añadirlo
+      if (!currentFavorites.some((fav) => fav.id === recipe.id)) {
         return [...currentFavorites, recipe];
       }
+      return currentFavorites;
     });
   };
 
+  const removeFavorite = (recipeId) => {
+    setFavorites((currentFavorites) => currentFavorites.filter((fav) => fav.id !== recipeId));
+  };
+
+  const isFavorite = (recipeId) => {
+    return favorites.some((fav) => fav.id === recipeId);
+  };
+
   return (
-    <FavoritesContext.Provider value={{ favorites, toggleFavorite }}>
+    <FavoritesContext.Provider value={{ favorites, addFavorite, removeFavorite, isFavorite }}>
       {children}
     </FavoritesContext.Provider>
   );

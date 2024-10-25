@@ -8,19 +8,16 @@ export default function RegistroScreen({ navigation }) {
   const [confirmarContrasena, setConfirmarContrasena] = useState('');
 
   const handleRegister = () => {
-    // Validar que todos los campos estén completos
     if (!nombre || !correo || !contrasena || !confirmarContrasena) {
       Alert.alert('Error', 'Todos los campos son obligatorios');
       return;
     }
 
-    // Validar que las contraseñas coincidan
     if (contrasena !== confirmarContrasena) {
       Alert.alert('Error', 'Las contraseñas no coinciden');
       return;
     }
 
-    // Si todo está bien, navega a la pantalla de inicio
     console.log('Nombre:', nombre);
     console.log('Correo:', correo);
     console.log('Contraseña:', contrasena);
@@ -71,7 +68,7 @@ export default function RegistroScreen({ navigation }) {
       <Text style={styles.letraR}>¿Ya tiene una cuenta? Inicie sesión aquí</Text>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('LoginScreen')} // Cambiado a 'LoginScreen' para ser consistente con el App.js
+        onPress={() => navigation.navigate('LoginScreen')} 
       >
         <Text style={styles.buttonText}>Iniciar Sesión</Text>
       </TouchableOpacity>

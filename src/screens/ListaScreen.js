@@ -7,10 +7,9 @@ const ListaScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [ingredient, setIngredient] = useState('');
   const [quantity, setQuantity] = useState('');
-  const [unit, setUnit] = useState('LT'); // Unidad inicial por defecto
+  const [unit, setUnit] = useState('LT'); 
   const [ingredientsList, setIngredientsList] = useState([]);
 
-  // Función para agregar ingrediente a la lista
   const addIngredient = () => {
     if (ingredient && quantity) {
       setIngredientsList([
@@ -24,7 +23,6 @@ const ListaScreen = () => {
     }
   };
 
-  // Función para eliminar un ingrediente de la lista
   const removeIngredient = (id) => {
     const newList = ingredientsList.filter((item) => item.id !== id);
     setIngredientsList(newList);
@@ -67,7 +65,7 @@ const ListaScreen = () => {
               onChangeText={setQuantity}
               placeholder="Ingrese la cantidad"
               placeholderTextColor="#C7A299"
-              keyboardType="numeric" // Este prop asegura que solo se acepten valores numéricos
+              keyboardType="numeric" 
             />
             <Text style={styles.modalText}>Seleccione unidad</Text>
             <Picker
@@ -77,6 +75,8 @@ const ListaScreen = () => {
             >
               <Picker.Item label="LT" value="LT" />
               <Picker.Item label="GR" value="GR" />
+              <Picker.Item label="UD" value="UD" />
+
             </Picker>
             <TouchableOpacity style={styles.button} onPress={addIngredient}>
               <Text style={styles.buttonText}>Agregar</Text>
