@@ -10,6 +10,7 @@ import ProfileScreen from './src/screens/ProfileScreen';
 import EditProfileScreen from './src/screens/EditProfileScreen';
 import SearchResultsScreen from './src/screens/SearchResultsScreen';
 import RecipeDetailsScreen from './src/screens/RecipeDetailsScreen';
+import AdminUsersScreen from './src/screens/AdminUsersScreen';
 import { FavoritesProvider } from './src/context/FavoritesContext';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -89,6 +90,8 @@ export default function App() {
           <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
           <Stack.Screen name="SearchResultsScreen" component={SearchResultsScreen} />
           <Stack.Screen name="RecipeDetailsScreen" component={RecipeDetailsScreen} />
+          <Stack.Screen name="AdminUsersScreen" component={AdminUsersScreen} />
+        
         </Stack.Navigator>
       </NavigationContainer>
     </FavoritesProvider>

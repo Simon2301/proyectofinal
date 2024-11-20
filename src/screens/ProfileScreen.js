@@ -1,28 +1,26 @@
-// ProfileScreen.js
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
-  const isFocused = useIsFocused(); // Hook para detectar si la pantalla está enfocada
+  const isFocused = useIsFocused(); 
   const [profileImage, setProfileImage] = useState(null);
   const [username, setUsername] = useState('Nombre Usuario');
 
-  // Cargar datos del perfil cada vez que la pantalla esté enfocada
   useEffect(() => {
     const loadProfileData = async () => {
       try {
         const savedImage = await AsyncStorage.getItem('profileImage');
         const savedUsername = await AsyncStorage.getItem('username');
+
         if (savedImage) {
           setProfileImage({ uri: savedImage });
         } else {
-          setProfileImage(require('../img/ImgUsuario.png')); // Imagen por defecto si no hay guardada
+          setProfileImage(require('../img/ImgUsuario.png')); 
         }
+
         if (savedUsername) {
           setUsername(savedUsername);
         }
@@ -32,13 +30,11 @@ const ProfileScreen = () => {
     };
 
     if (isFocused) {
-      loadProfileData(); // Recargar los datos cuando la pantalla esté enfocada
+      loadProfileData(); 
     }
   }, [isFocused]);
 
-  // Manejar la acción de cerrar sesión
   const handleLogout = () => {
-    // Reinicia la navegación y dirige a la pantalla de inicio de sesión
     navigation.reset({
       index: 0,
       routes: [{ name: 'LoginScreen' }],
@@ -49,6 +45,10 @@ const ProfileScreen = () => {
     navigation.navigate('EditProfileScreen');
   };
 
+  const handleAdminUsers = () => {
+    navigation.navigate('AdminUsersScreen'); // Navegar a la pantalla de administración de usuarios
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.profileSection}>
@@ -56,6 +56,10 @@ const ProfileScreen = () => {
         <Text style={styles.username}>{username}</Text>
         <TouchableOpacity style={styles.button} onPress={handleEditProfile}>
           <Text style={styles.buttonText}>Editar</Text>
+        </TouchableOpacity>
+        {/* Botón siempre visible */}
+        <TouchableOpacity style={styles.button} onPress={handleAdminUsers}>
+          <Text style={styles.buttonText}>Administrar Usuarios</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleLogout}>
           <Text style={styles.buttonText}>Cerrar Sesión</Text>
@@ -78,8 +82,8 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   profileImage: {
-    width: 180, // Aumentado de 120 a 180
-    height: 180, // Aumentado de 120 a 180
+    width: 180, 
+    height: 180, 
     borderRadius: 90,
     marginBottom: 20,
   },
