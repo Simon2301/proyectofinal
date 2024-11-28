@@ -1,14 +1,40 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Alert } from 'react-native';
+import axios from 'axios';
 
 export default function LoginScreen({ navigation }) {
   const [correo, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
 
-  const handleSubmit = () => {
-    console.log('Correo Electrónico:', correo);
-    console.log('Contraseña:', contrasena);
-    navigation.navigate('Inicio'); 
+  const handleSubmit = async () => {
+    if (!correo || !contrasena) {
+      Alert.alert('Error', 'Por favor, complete todos los campos');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://192.168.x.x:4040/login', {
+        correo,
+        contrasena,
+      });
+
+      if (response.status === 200) {
+        // Si las credenciales son correctas
+        Alert.alert('Éxito', 'Inicio de sesión exitoso');
+        navigation.navigate('Inicio'); // Redirigir a la pantalla principal
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          Alert.alert('Error', 'Credenciales incorrectas');
+        } else {
+          Alert.alert('Error', 'Hubo un problema con el inicio de sesión');
+        }
+      } else {
+        Alert.alert('Error', 'No se pudo conectar al servidor');
+      }
+      console.error(error);
+    }
   };
 
   return (
@@ -20,6 +46,7 @@ export default function LoginScreen({ navigation }) {
         onChangeText={setCorreo}
         placeholder="abc@gmail.com"
         placeholderTextColor="#C7A299"
+        keyboardType="email-address"
       />
       <Text style={styles.letra}>Ingrese su Contraseña:</Text>
       <TextInput
