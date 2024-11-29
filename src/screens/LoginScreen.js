@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Alert } from 'react-native';
-import axios from 'axios';
 
 export default function LoginScreen({ navigation }) {
   const [correo, setCorreo] = useState('');
@@ -13,26 +12,25 @@ export default function LoginScreen({ navigation }) {
     }
 
     try {
-      const response = await axios.post('http://192.168.x.x:4040/login', {
-        correo,
-        contrasena,
+      const response = await fetch('http://192.168.141.1:4040/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ correo, contrasena }),
       });
 
-      if (response.status === 200) {
-        // Si las credenciales son correctas
+      if (response.ok) {
+        const data = await response.json();
         Alert.alert('Éxito', 'Inicio de sesión exitoso');
         navigation.navigate('Inicio'); // Redirigir a la pantalla principal
+      } else if (response.status === 401) {
+        Alert.alert('Error', 'Credenciales incorrectas');
+      } else {
+        Alert.alert('Error', 'Hubo un problema con el inicio de sesión');
       }
     } catch (error) {
-      if (error.response) {
-        if (error.response.status === 401) {
-          Alert.alert('Error', 'Credenciales incorrectas');
-        } else {
-          Alert.alert('Error', 'Hubo un problema con el inicio de sesión');
-        }
-      } else {
-        Alert.alert('Error', 'No se pudo conectar al servidor');
-      }
+      Alert.alert('Error', 'No se pudo conectar al servidor');
       console.error(error);
     }
   };
