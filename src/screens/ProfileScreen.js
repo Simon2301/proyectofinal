@@ -58,9 +58,7 @@ const ProfileScreen = () => {
           <Text style={styles.buttonText}>Editar</Text>
         </TouchableOpacity>
         {/* Botón siempre visible */}
-        <TouchableOpacity style={styles.button} onPress={handleAdminUsers}>
-          <Text style={styles.buttonText}>Administrar Usuarios</Text>
-        </TouchableOpacity>
+
         <TouchableOpacity style={styles.button} onPress={handleLogout}>
           <Text style={styles.buttonText}>Cerrar Sesión</Text>
         </TouchableOpacity>

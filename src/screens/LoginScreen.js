@@ -13,7 +13,7 @@ export default function LoginScreen({ navigation }) {
     }
 
     try {
-      const response = await axios.post('http://192.168.x.x:4040/login', {
+      const response = await axios.post('http://192.168.1.34:4040/login', {
         correo,
         contrasena,
       });
@@ -39,7 +39,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.letra}>Ingrese su Correo Electrónico:</Text>
+      <Text style={styles.label}>Ingrese su Correo Electrónico:</Text>
       <TextInput
         style={styles.input}
         value={correo}
@@ -48,7 +48,7 @@ export default function LoginScreen({ navigation }) {
         placeholderTextColor="#C7A299"
         keyboardType="email-address"
       />
-      <Text style={styles.letra}>Ingrese su Contraseña:</Text>
+      <Text style={styles.label}>Ingrese su Contraseña:</Text>
       <TextInput
         style={styles.input}
         value={contrasena}
@@ -61,7 +61,7 @@ export default function LoginScreen({ navigation }) {
         <Text style={styles.buttonText}>Iniciar Sesión</Text>
       </TouchableOpacity>
 
-      <Text style={styles.letraR}>¿Aún no tiene una cuenta? Regístrese aquí</Text>
+      <Text style={styles.redirectText}>¿Aún no tiene una cuenta? Regístrese aquí</Text>
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('RegistroScreen')}
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
   },
-  letra: {
+  label: {
     color: "#2c241c",
     marginBottom: 10,
     fontSize: 16,
@@ -88,15 +88,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     width: '95%',
     paddingHorizontal: 20,
-    flexWrap: 'nowrap', 
-  },
-  letraR: {
-    marginTop: 20,
-    marginBottom: 10,
-    color: "#2c241c",
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
   input: {
     height: 40,
@@ -123,5 +114,12 @@ const styles = StyleSheet.create({
     color: '#2c241c',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  redirectText: {
+    marginTop: 20,
+    color: "#2c241c",
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });

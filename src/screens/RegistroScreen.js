@@ -4,12 +4,12 @@ import axios from 'axios';
 
 export default function RegistroScreen({ navigation }) {
   const [nombre, setNombre] = useState('');
-  const [correo, setCorreo] = useState('');
+  const [mail, setCorreo] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [confirmarContrasena, setConfirmarContrasena] = useState('');
 
   const handleRegister = async () => {
-    if (!nombre || !correo || !contrasena || !confirmarContrasena) {
+    if (!nombre || !mail || !contrasena || !confirmarContrasena) {
       Alert.alert('Error', 'Todos los campos son obligatorios');
       return;
     }
@@ -20,30 +20,40 @@ export default function RegistroScreen({ navigation }) {
     }
 
     try {
-      const response = await axios.post('http://192.168.x.x:4040/registro', {
+      // Realizar la solicitud POST al servidor
+      const response = await axios.post('http://192.168.1.34:4040/registro', {
         nombre,
-        correo,
+        mail,
         contrasena,
       });
 
+      // Manejar la respuesta exitosa
       if (response.status === 201) {
         Alert.alert('Éxito', 'Usuario creado exitosamente');
         setNombre('');
         setCorreo('');
         setContrasena('');
         setConfirmarContrasena('');
+        navigation.navigate('LoginScreen');
       }
     } catch (error) {
+      console.error('Error en la solicitud:', error);
+
+      // Si el error es una respuesta del servidor
       if (error.response) {
+        console.log('Respuesta del servidor:', error.response);
         if (error.response.status === 409) {
           Alert.alert('Error', 'El correo ya está registrado');
         } else {
-          Alert.alert('Error', 'No se pudo crear el usuario');
+          Alert.alert('Error', error.response.data.message || 'No se pudo crear el usuario');
         }
+      } else if (error.request) {
+        // Si la solicitud fue hecha pero no se obtuvo respuesta
+        Alert.alert('Error', 'No se pudo conectar con el servidor');
       } else {
-        Alert.alert('Error', 'Hubo un problema al conectar con el servidor');
+        // Si ocurrió algún otro error en el código
+        Alert.alert('Error', 'Hubo un error al intentar registrar el usuario');
       }
-      console.error(error);
     }
   };
 
@@ -60,7 +70,7 @@ export default function RegistroScreen({ navigation }) {
       <Text style={styles.label}>Ingrese su Correo Electrónico:</Text>
       <TextInput
         style={styles.input}
-        value={correo}
+        value={mail}
         onChangeText={setCorreo}
         placeholder="abc@gmail.com"
         keyboardType="email-address"

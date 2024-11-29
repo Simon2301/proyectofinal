@@ -1,68 +1,72 @@
 const express = require('express');
 const mysql = require('mysql2');
-const bcrypt = require('bcrypt');
-const cors = require('cors');
+const cors = require('cors'); // Asegúrate de tenerlo correctamente importado
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+const PORT = 4040;
 
-// Configuración de conexión a MySQL
+// Configurar CORS para aceptar solicitudes desde cualquier origen
+app.use(cors({
+  origin: '*',  // Permite solicitudes desde cualquier origen (reemplaza con tu URL si es necesario)
+  methods: 'GET, POST, PUT, DELETE',  // Métodos HTTP permitidos
+  allowedHeaders: 'Content-Type, Authorization', // Cabeceras permitidas
+}));
+
+app.use(express.json()); // Middleware para parsear JSON en las solicitudes
+
+// Configuración de la base de datos MySQL
 const db = mysql.createConnection({
-  host: '192.168.x.x', // Cambia esto por la IP local de tu máquina
+  host: '192.168.1.34',
   user: 'root',
   password: '',
-  database: 'gourmetly'
+  database: 'gourmetly',
 });
 
-// Conexión a la base de datos
+// Verificar si la conexión a la base de datos es exitosa
 db.connect((err) => {
   if (err) {
     console.error('Error al conectar a la base de datos:', err);
-    return;
+  } else {
+    console.log('Conexión exitosa a la base de datos');
   }
-  console.log('Conectado a la base de datos MySQL');
 });
 
-// Ruta para registrar usuarios
-app.post('/registro', async (req, res) => {
-  const { nombre, correo, contrasena } = req.body;
+// Ruta para manejar el registro
+app.post('/registro', (req, res) => {
+  const { nombre, mail, contrasena } = req.body;
 
-  // Validación de los campos
-  if (!nombre || !correo || !contrasena) {
+  // Verificar si faltan datos
+  if (!nombre || !mail || !contrasena) {
     return res.status(400).json({ message: 'Todos los campos son obligatorios' });
   }
 
-  // Validación del formato del correo
-  const validarCorreo = (correo) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
-  if (!validarCorreo(correo)) {
-    return res.status(400).json({ message: 'Correo inválido' });
-  }
+  // Verificar si el correo ya está registrado
+  const checkQuery = 'SELECT * FROM usuarios WHERE mail = ?';
+  db.query(checkQuery, [mail], (err, results) => {
+    if (err) {
+      console.error('Error en la consulta:', err);
+      return res.status(500).json({ message: 'Error del servidor' });
+    }
 
-  try {
-    // Hash de la contraseña
-    const hashedPassword = await bcrypt.hash(contrasena, 10);
+    if (results.length > 0) {
+      return res.status(409).json({ message: 'El correo ya está registrado' });
+    }
 
-    // Consulta para insertar un nuevo usuario
-    const query = 'INSERT INTO usuarios (nombre, mail, contrasena) VALUES (?, ?, ?)';
-    db.query(query, [nombre, correo, hashedPassword], (err, result) => {
+    // Insertar el nuevo usuario en la base de datos
+    const insertQuery = 'INSERT INTO usuarios (nombre, mail, contrasena) VALUES (?, ?, ?)';
+    db.query(insertQuery, [nombre, mail, contrasena], (err) => {
       if (err) {
-        if (err.code === 'ER_DUP_ENTRY') {
-          return res.status(409).json({ message: 'El correo ya está registrado' });
-        }
-        return res.status(500).json({ message: 'Error al crear el usuario', error: err });
+        console.error('Error al insertar usuario:', err);
+        return res.status(500).json({ message: 'Error al registrar usuario' });
       }
 
-      console.log('Usuario creado:', { id: result.insertId, nombre, correo });
-      res.status(201).json({ message: 'Usuario creado exitosamente', userId: result.insertId });
+      // Respuesta exitosa
+      return res.status(201).json({ message: 'Usuario registrado exitosamente' });
     });
-  } catch (error) {
-    console.error('Error en la creación del usuario:', error);
-    res.status(500).json({ message: 'Error en la creación del usuario' });
-  }
+  });
 });
 
-// Servidor escuchando en el puerto 3000
-app.listen(3000, '0.0.0.0', () => {
-  console.log('Servidor corriendo en http://192.168.x.x:3000'); // Cambia x.x por la IP de tu máquina
+// Iniciar el servidor en el puerto 4040
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
